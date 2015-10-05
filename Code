@@ -1,0 +1,17 @@
+setwd("/Users/Jeong/Dropbox/2014_Research/TAPS_Climate/Data")
+minhee <- read.csv("daily_temperature_wave1-3(updated0919).csv")
+jeong <- read.csv("daily_temperature_fall2014.csv")
+jeong2 <- read.csv("history_average_until_20140922.csv")
+
+library(gtools)
+# This line enables rbinding by wustlid
+bind <- smartbind(jeong, jeong2)
+# sort the data set in the order of wustlid and date
+bind <- bind[order(bind$wustlid, bind$date),]
+names(minhee)
+# change the name of the variable before merging
+names(minhee)[4] <- "date"
+# merge the data set by wustlid and date
+includeall <- merge(bind, minhee, by=c("wustlid", "date"))
+# sort the data set
+includeall <- includeall[order(includeall$wustlid, includeall$date),]
